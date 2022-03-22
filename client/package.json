@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.26.1",
     "core-js": "^3.8.3",
+    "node-polyfill-webpack-plugin": "^1.1.4",
     "node-rsa": "^1.1.1",
     "vue": "^3.2.13"
   },

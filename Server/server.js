@@ -5,12 +5,13 @@ const port = 3000
 const app = express()
 
 app.get('/', (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
+    res.set('Access-Control-Allow-Origin', '*')
     const rsa = rsaKeys()
     dbSecretKey = rsa.privateKey
     res.status(201).json({
         package: rsa.publicKey
     })
+    console.log(rsa.publicKey)
     console.log('Connection received')
 })
 
@@ -30,14 +31,14 @@ let dbSecretKey=""
 
 resDecrypt = (text, key) => {
     let keyPrivate = new NodeRSA(key);
-    let decrypt = keyPrivate.decrypt(text, 'utf8');
+    let decrypt = keyPrivate.decrypt(text, 'utf8')
     return decrypt
 }
 
 rsaKeys = () => {
     const keys = new NodeRSA({b: 1024});
-    const publicKey = keys.exportKey('public');
-    const privateKey = keys.exportKey('private');
+    const publicKey = keys.exportKey('public')
+    const privateKey = keys.exportKey('private')
     return {
         publicKey: publicKey,
         privateKey: privateKey
@@ -45,8 +46,8 @@ rsaKeys = () => {
 }
 
 app.put('/send', (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*');
-    const body = req.body;
-    console.log(body.data);
-    console.log(resDecrypt(body.data, dbSecretKey));
+    res.set('Access-Control-Allow-Origin', '*')
+    const body = req.body
+    console.log(body.data)
+    console.log(resDecrypt(body.data, dbSecretKey))
 })
