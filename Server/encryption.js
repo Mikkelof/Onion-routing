@@ -1,6 +1,6 @@
 const NodeRSA = require('node-rsa')
 
-const key = new NodeRSA({b: 512})
+const key = new NodeRSA({b: 1024})
 
 function encrypt(message) {
     const encryptedMessage = key.encrypt(message, 'base64')
@@ -18,5 +18,4 @@ function decrypt(messageEncrypted) {
     return decryptedMessage
 }
 
-const encrypted = encrypt("boi")
-decrypt(encrypted)
+export { encrypt, decrypt }
