@@ -16,16 +16,29 @@
 </template>
 
 <script>
+import axios from 'axios'
+import RSA from '@/mixins/rsa'
 export default {
   name: 'App',
+  mixins: [RSA],
   data() {
     return {
+      publicKey: '',
       url: '',
+      hash: '',
     }
   },
   methods: {
     sendRequest(url) {
-      fetch(url)
+      axios.get(url)
+        .then(result => {
+          const body = result.data
+          this.publicKey = body.package
+          console.log(body.package)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }
