@@ -1,18 +1,15 @@
 const cors = require('cors')
 const express = require('express')
-const NodeRSA = require('node-rsa');
 const port = 3000
 const app = express()
 
+const nodes = [3001, 3002, 3003, 3004, 3005]
+
 app.get('/', (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
-    const rsa = rsaKeys()
-    dbSecretKey = rsa.privateKey
-    res.status(201).json({
-        package: rsa.publicKey
-    })
-    console.log(rsa.publicKey)
-    console.log('Connection received')
+    const randOrder = nodes.sort(() => 0.5 - Math.random())
+    let threeNodes = randOrder.slice(0, 3)
+    console.log(threeNodes)
 })
 
 app.use(express.json())
@@ -26,24 +23,6 @@ app.use(
 app.listen(port, () => {
     console.log('Server is listening on port ' + port)
 })
-
-let dbSecretKey=""
-
-resDecrypt = (text, key) => {
-    let keyPrivate = new NodeRSA(key);
-    let decrypt = keyPrivate.decrypt(text, 'utf8')
-    return decrypt
-}
-
-rsaKeys = () => {
-    const keys = new NodeRSA({b: 1024});
-    const publicKey = keys.exportKey('public')
-    const privateKey = keys.exportKey('private')
-    return {
-        publicKey: publicKey,
-        privateKey: privateKey
-    }
-}
 
 app.put('/send', (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')

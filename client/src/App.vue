@@ -8,11 +8,11 @@
       <title>Onion routing</title>
   </head>
   <body>
-      <!-- <h3>Enter URL of server you want to connect to (for example http://localhost:3000)</h3> -->
-      <!-- <input type="text" id="url" name="url" v-model="url"><br><br> -->
-      <h3>Enter the message you want to send to the server</h3>
+      <h3>Enter uri of server you want to connect to (for example http://localhost:6969)</h3>
+      <input type="text" id="uri" name="uri" v-model="uri"><br><br>
+      <h3>Enter the message you want to send to the destination</h3>
       <input type="text" id="message" name="message" v-model="message"><br><br>
-      <input type="submit" values="Send" value="Send request" @click="sendRequest(message)">
+      <input type="submit" values="Send" value="Send request" @click="sendRequest(uri, message)">
   </body>
   </html>
 </template>
@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       publicKey: '',
-      // url: '',
+      uri: 'http://localhost:6969',
       message: '',
       hash: '',
     }
@@ -40,7 +40,7 @@ export default {
       console.log(this.message)
       console.log(this.hash)
 
-      axios.put('http://localhost:3000/send', {data: encMessage})
+      axios.put(this.uri, {data: encMessage})
         .then(result => {
           console.log(result)
         })
