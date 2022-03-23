@@ -1,5 +1,6 @@
 const cors = require('cors')
 const express = require('express')
+const axios = require('axios')
 const port = 3000
 const app = express()
 
@@ -9,7 +10,21 @@ app.get('/', (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
     const randOrder = nodes.sort(() => 0.5 - Math.random())
     let threeNodes = randOrder.slice(0, 3)
-    console.log(threeNodes)
+    let publicKeys = []
+    
+    threeNodes.forEach(function(node) {
+        axios.get(`http://localhost:${node}`)
+        .then(result => {
+            const body = result.data
+            const publicKey = body.package
+            publicKeys.push(publicKey)
+            console.log(body.package)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    }
+    )
 })
 
 app.use(express.json())
