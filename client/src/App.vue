@@ -25,14 +25,14 @@ export default {
   mixins: [RSA],
   data() {
     return {
-      publicKey: '',
+      publicKeys: [],
       uri: 'http://localhost:6969',
       message: '',
       hash: '',
     }
   },
   methods: {
-    sendRequest(message) {
+    sendRequest(uri, message) {
       this.message = message
       const encMessage = this.rsaEncrypt(message, this.publicKey)
       this.hash = encMessage
@@ -40,7 +40,7 @@ export default {
       console.log(this.message)
       console.log(this.hash)
 
-      axios.put(this.uri, {data: encMessage})
+      axios.put(uri, {data: encMessage})
         .then(result => {
           console.log(result)
         })
@@ -52,9 +52,10 @@ export default {
   created() {
     axios.get('http://localhost:3000/')
       .then(result => {
-        const body = result.data
-        this.publicKey = body.package
-        console.log(body.package)
+        this.publicKeys = result.data
+        console.log(this.publicKeys[0])
+        console.log(this.publicKeys[1])
+        console.log(this.publicKeys[2])
       })
       .catch(err => {
         console.log(err)

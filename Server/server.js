@@ -23,8 +23,9 @@ app.get('/', (req, res) => {
         .catch(err => {
             console.log(err)
         })
-    }
-    )
+    })
+
+    res.status(201).send(threeNodes)
 })
 
 app.use(express.json())
