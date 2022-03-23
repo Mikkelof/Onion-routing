@@ -26,6 +26,7 @@ export default {
   data() {
     return {
       publicKeys: [],
+      nodes: [],
       uri: 'http://localhost:6969',
       message: '',
       hash: '',
@@ -50,16 +51,30 @@ export default {
     }
   },
   created() {
-    axios.get('http://localhost:3000/')
-      .then(result => {
-        this.publicKeys = result.data
-        console.log(this.publicKeys[0])
-        console.log(this.publicKeys[1])
-        console.log(this.publicKeys[2])
+    const getRes = async () => {
+      const response = await axios.get('http://localhost:3000/')
+      response.data.forEach(node => {
+          console.log(node)
+          this.nodes.push(node)
+          console.log(this.nodes.length)
       })
-      .catch(err => {
-        console.log(err)
+
+      this.nodes.forEach(node => {
+        axios.get(`http://localhost:${node}`)
+          .then(result => {
+            const body = result.data
+            this.publicKeys.push(body.package)
+            console.log(body.package)
+          })
+          .catch(err => {
+            console.log(err)
+          })
       })
+    }
+
+    getRes()
+
+    console.log(this.nodes.length)
   }
 }
 </script>
