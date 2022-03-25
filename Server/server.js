@@ -10,21 +10,7 @@ app.get('/', (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
     const randOrder = nodes.sort(() => 0.5 - Math.random())
     let threeNodes = randOrder.slice(0, 3)
-    let publicKeys = []
-    
-    threeNodes.forEach(function(node) {
-        axios.get(`http://localhost:${node}`)
-        .then(result => {
-            const body = result.data
-            const publicKey = body.package
-            publicKeys.push(publicKey)
-            console.log(body.package)
-        })
-        .catch(err => {
-            console.log(err)
-        })
-    })
-
+    console.log('Selected three nodes for the client')
     res.status(201).send(threeNodes)
 })
 

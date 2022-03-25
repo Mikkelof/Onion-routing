@@ -56,7 +56,6 @@ export default {
       response.data.forEach(node => {
           console.log(node)
           this.nodes.push(node)
-          console.log(this.nodes.length)
       })
 
       this.nodes.forEach(node => {

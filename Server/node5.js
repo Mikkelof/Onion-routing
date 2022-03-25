@@ -3,6 +3,15 @@ const express = require('express')
 const NodeRSA = require('node-rsa');
 const port = 3005
 const app = express()
+let dbSecretKey=""
+
+app.use(express.json())
+
+app.use(
+    cors({
+        origin: "*",
+    })
+)
 
 app.get('/', (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
@@ -15,19 +24,9 @@ app.get('/', (req, res) => {
     console.log('Connection received at port ' + port)
 })
 
-app.use(express.json())
-
-app.use(
-    cors({
-        origin: "*",
-    })
-)
-
 app.listen(port, () => {
     console.log('Node is listening on port ' + port)
 })
-
-let dbSecretKey=""
 
 resDecrypt = (text, key) => {
     let keyPrivate = new NodeRSA(key);
