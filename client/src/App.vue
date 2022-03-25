@@ -34,14 +34,25 @@ export default {
   },
   methods: {
     sendRequest(uri, message) {
-      this.message = message
-      const encMessage = this.rsaEncrypt(message, this.publicKey)
-      this.hash = encMessage
+      let encMessage = message
+      let node1 = this.nodes[0]
+      let node2 = this.nodes[1]
+      let node3 = this.nodes[2]
 
-      console.log(this.message)
+      for (let i = 0; i < 3; i++) {
+        encMessage = this.rsaEncrypt(encMessage, this.publicKeys[i])
+        if (i === 1) {
+          node2 = this.rsaEncrypt(node2, this.publicKeys[0])
+        } else if (i === 2) {
+          node3 = this.rsaEncrypt(node3, this.publicKeys[1])
+        }
+      }
+
+      uri = this.rsaEncrypt(uri, this.publicKeys[2])
+
       console.log(this.hash)
 
-      axios.put(uri, {data: encMessage})
+      axios.put(`http://localhost:${node1}/send`, {data: encMessage, node2: node2, node3: node3, uri: uri, nodeNum: 0})
         .then(result => {
           console.log(result)
         })
@@ -72,8 +83,6 @@ export default {
     }
 
     getRes()
-
-    console.log(this.nodes.length)
   }
 }
 </script>
