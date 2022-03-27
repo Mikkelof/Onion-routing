@@ -52,32 +52,28 @@ app.put('/send', (req, res) => {
     let next = ''
     const body = req.body
     body.data = resDecrypt(body.data, dbSecretKey)
-    console.log(body.data)
     if (body.nodeNum === 0) {
         next = resDecrypt(body.node2, dbSecretKey)
     } else if (body.nodeNum === 1) {
+        body.node2 = 0
         next = resDecrypt(body.node3, dbSecretKey)
     } else if (body.nodeNum === 2) {
+        body.node3 = 0
         next = resDecrypt(body.uri, dbSecretKey)
     }
 
-    body.nodeNum += body.nodeNum
+    body.nodeNum = body.nodeNum + 1
 
     if (body.nodeNum === 3) {
-        axios.put(`http://localhost:${next}`, {data: body.data})
-        .then(result => {
-          console.log(result)
-        })
+        axios.put(`${next}/`, {data: body.data})
         .catch(err => {
           console.log(err)
         })
     } else {
         axios.put(`http://localhost:${next}/send`, {data: body.data, node2: body.node2, node3: body.node3, uri: body.uri, nodeNum: body.nodeNum})
-        .then(result => {
-          console.log(result)
-        })
         .catch(err => {
           console.log(err)
         })
     }
+    res.end()
 })
