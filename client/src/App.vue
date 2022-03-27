@@ -35,20 +35,17 @@ export default {
   methods: {
     sendRequest(uri, message) {
       let encMessage = message
-      let node1 = this.nodes[0]
+      let node1 = this.nodes[2]
       let node2 = this.nodes[1]
-      let node3 = this.nodes[2]
+      let node3 = this.nodes[0]
 
       for (let i = 0; i < 3; i++) {
         encMessage = this.rsaEncrypt(encMessage, this.publicKeys[i])
-        if (i === 1) {
-          node2 = this.rsaEncrypt(node2, this.publicKeys[0])
-        } else if (i === 2) {
-          node3 = this.rsaEncrypt(node3, this.publicKeys[1])
-        }
       }
 
-      uri = this.rsaEncrypt(uri, this.publicKeys[2])
+      node2 = this.rsaEncrypt(node2, this.publicKeys[2])
+      node3 = this.rsaEncrypt(node3, this.publicKeys[1])
+      uri = this.rsaEncrypt(uri, this.publicKeys[0])
 
       console.log(this.hash)
 
@@ -69,17 +66,13 @@ export default {
           this.nodes.push(node)
       })
 
-      this.nodes.forEach(node => {
-        axios.get(`http://localhost:${node}`)
-          .then(result => {
-            const body = result.data
-            this.publicKeys.push(body.package)
-            console.log(body.package)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      })
+      for (let index = 0; index < this.nodes.length; index++) {
+        const node = this.nodes[index]
+        const response = await axios.get(`http://localhost:${node}`)
+        const body = response.data
+        this.publicKeys.push(body.package)
+        console.log(body.package)
+      }
     }
 
     getRes()

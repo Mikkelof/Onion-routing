@@ -7,6 +7,7 @@ const app = express()
 app.get('/', (req, res) => {
     res.set('Access-Control-Allow-Origin', '*')
     console.log('Connection received at port ' + port)
+    console.log(req.body.data)
 })
 
 app.use(express.json())
