@@ -20,4 +20,5 @@ app.put('/', (req, res) => {
     console.log('Connection received at port ' + port)
     const body = req.body
     console.log('Message received: ' + body.data)
+    res.end()
 })

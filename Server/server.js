@@ -24,10 +24,3 @@ app.use(
 app.listen(port, () => {
     console.log('Server is listening on port ' + port)
 })
-
-app.put('/send', (req, res) => {
-    res.set('Access-Control-Allow-Origin', '*')
-    const body = req.body
-    console.log(body.data)
-    console.log(resDecrypt(body.data, dbSecretKey))
-})

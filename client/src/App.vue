@@ -47,12 +47,7 @@ export default {
       node3 = this.rsaEncrypt(node3, this.publicKeys[1])
       uri = this.rsaEncrypt(uri, this.publicKeys[0])
 
-      console.log(this.hash)
-
       axios.put(`http://localhost:${node1}/send`, {data: encMessage, node2: node2, node3: node3, uri: uri, nodeNum: 0})
-        .then(result => {
-          console.log(result)
-        })
         .catch(err => {
           console.log(err)
         })
