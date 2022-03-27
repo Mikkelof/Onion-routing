@@ -91,7 +91,7 @@ in order to launch the client website. It can then be found on **http://localhos
 
 #### Server
 
-Navigate to the ../Onion-routing/Slient folder in a terminal window. Once here, type
+Navigate to the ../Onion-routing/Server folder in a terminal window. Once here, type
 
 ```
 npm install
