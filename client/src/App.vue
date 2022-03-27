@@ -57,7 +57,6 @@ export default {
     const getRes = async () => {
       const response = await axios.get('http://localhost:3000/')
       response.data.forEach(node => {
-          console.log(node)
           this.nodes.push(node)
       })
 
